@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 
 
@@ -7,6 +7,18 @@ const borderStyle = {border: '1px solid black'}
 function App() {
     const [turn, setTurn] = React.useState(0);
     const [ticTacToe, setTicTacToe] = React.useState([9, 9, 9, 9, 9, 9, 9, 9, 9]);
+    const [gameEnded, setGameEnded] = React.useState(false);
+
+    useEffect(() => {
+        let tttString = ticTacToe.join("")
+        if (
+            tttString.startsWith("111") || tttString.startsWith("000") ||
+            tttString.endsWith("111") || tttString.endsWith("000") ||
+            tttString.includes("111", 3) || tttString.includes("000", 3)
+        ) {
+            setGameEnded(true)
+        }
+    }, [JSON.stringify(ticTacToe)])
 
     return (
         <div className="App">
@@ -46,6 +58,9 @@ function App() {
 
             RESULT:
             <div>{ticTacToe}</div>
+            <br/>
+            Game ended?:
+            <div>{String(gameEnded)}</div>
         </div>
     );
 }
